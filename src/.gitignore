@@ -1,0 +1,58 @@
+src/appsettings.json
+/.vscode
+/.vscode/settings.json
+
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Environment specifics
+
+*.key
+*.env
+appsettings.Development.json
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+bin/
+[Oo]bj/
+obj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+[Bb]in/
+[Oo]bj/
+test/bin/
+test/[Oo]bj/
+test/obj/
+test/[Oo]ut/
+
+# Visual Studio
+.vs/
+.vscode/settings.json
+/src/.env
+/src/env

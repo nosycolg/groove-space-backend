@@ -1,0 +1,6 @@
+@GrooveSpace_HostAddress = http://localhost:5098
+
+GET {{GrooveSpace_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
