@@ -1,21 +1,34 @@
 using Configs;
+using Amazon.Extensions.NETCore.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints(); // Ensure FastEndpoints are added first
-builder.Services.SwaggerDocument(); // This should be called after adding FastEndpoints
+builder.Services.RegisterServices();
+
+builder.Services.AddAWSService<IAmazonS3>(new AWSOptions
+{
+    Credentials = new Amazon.Runtime.BasicAWSCredentials(
+        builder.Configuration["AWS:AccessKey"],
+        builder.Configuration["AWS:SecretKey"]
+    ),
+    Region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"])
+});
+
+builder.Services.AddFastEndpoints();
+builder.Services.SwaggerDocument();
+
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();
 
 builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin", policyBuilder =>
     {
-        options.AddPolicy("AllowAnyOrigin", builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
+        policyBuilder.AllowAnyOrigin()
+                     .AllowAnyMethod()
+                     .AllowAnyHeader();
     });
+});
 
 var app = builder.Build();
 
@@ -24,7 +37,7 @@ app.UseCors("AllowAnyOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSwaggerGen(); // Ensure this is called after FastEndpoints are configured
+app.UseSwaggerGen();
 app.UseFastEndpoints();
 
 await MongoConfig.Init(app.Configuration);
